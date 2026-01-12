@@ -1,0 +1,37 @@
+# --- 1. Deployment: Manages the execution of the application ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: my-web
+spec:
+  replicas: 3 # Run 3 replicas for redundancy
+  selector:
+    matchLabels:
+      app: my-web
+  template:
+    metadata:
+      labels:
+        app: my-web
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+
+---
+# --- 2. Service: Manages network exposure (access) ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: my-web # Connects to the Deployment labeled 'app: my-web'
+  ports:
+    - protocol: TCP
+      port: 8080      # The port exposed by the service
+      targetPort: 80  # The port inside the container
+  type: ClusterIP     # Internal cluster IP (Ideal for local practice)
