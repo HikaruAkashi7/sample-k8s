@@ -30,6 +30,7 @@ kubectl cluster-info --context kind-sample-k8s
 ```
 
 
+
 ## Create NGINX
 ```bash
 kubectl run nginx --image=nginx
